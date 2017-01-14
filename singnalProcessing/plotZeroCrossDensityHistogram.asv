@@ -1,4 +1,4 @@
-function [zeroCrossDensity] = plotZeroCrossDensity( signal, Fs, windowWidthHalf)
+function [zeroCrossDensityHistogram] = plotZeroCrossDensityHistogram( signal, Fs, windowWidthHalf)
    timeBase=[0:1/Fs:(size(signal,2)-1)/Fs] ;    
 
    for i = 1:size(signal,2)-1
@@ -8,16 +8,17 @@ function [zeroCrossDensity] = plotZeroCrossDensity( signal, Fs, windowWidthHalf)
            zeroCrossFunction(i)=0;
        end
    end
+   
    zeroCrossFunction(size(signal,2))=0;
   
    for i = windowWidthHalf + 1 : size(signal,2) - windowWidthHalf
-       zeroCrossDensity(i) = sum(zeroCrossFunction((i - windowWidthHalf) :(i + windowWidthHalf)));
+       zeroCrossDensityHistogram(i) = sum(zeroCrossFunction((i - windowWidthHalf) :(i + windowWidthHalf)));
    end
    
    for i = [1:windowWidthHalf, size(signal,2) - windowWidthHalf :size(signal,2)]
-       zeroCrossDensity(i) = 0;
+       zeroCrossDensityHistogram(i) = 0;
    end
    
-   plot(timeBase, signal, timeBase, zeroCrossDensity);
+   plot(timeBase, signal, timeBase, zeroCrossDensityHistogram);
 end
 
