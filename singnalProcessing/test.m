@@ -3,8 +3,8 @@
 
 [stereoSignal,Fs] = audioread('/audio/abcdef.wav');
 signal = stereoSignal(:,1)';
-%plotEnvelope(signal,Fs);
-plotZeroCrossIntervalsHistogram(signal,Fs, 50);    
+plotEnvelope(signal,Fs);
+%plotZeroCrossIntervalsHistogram(signal,Fs, 50);    
 %plotZeroCrossDensityHistogram(signal,Fs, 50);    
 %cepstralAnalysis(signal, Fs)
 %size(generateMelFilterWindow( 5, 300, 20, 251))
