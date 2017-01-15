@@ -14,8 +14,7 @@ function [zeroCrossDensity] = plotzeroCrossDensity( signal, Fs, windowWidth)
        zeroCrossDensity(i) = sum(zeroCrossFunction(i : (i + windowWidth)));
    end
    
-plot(zeroCrossDensity);
-%TODO pliot histogram
-%histogram(zeroCrossDensity);
+%plot(zeroCrossDensity);
+histogram(zeroCrossDensity);
 end
 

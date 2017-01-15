@@ -15,8 +15,8 @@ function [zeroCrossDensity] = plotZeroCrossIntervalsHistogram( signal, Fs, windo
        zeroCrossInterval(i) = sum(zeroCrossFunction(i : (i + windowWidth))) / windowWidth /Fs;
    end
    
-plot(zeroCrossInterval);
-%TODO plot histogram
-%histogram(zeroCrossInterval);
+%plot(zeroCrossInterval);
+
+histogram(zeroCrossInterval);
 end
 
