@@ -22,11 +22,7 @@ function varargout = ProjectSpeechParameters(varargin)
 
 % Edit the above text2 to modify the response to help ProjectSpeechParameters
 
-<<<<<<< Updated upstream
-% Last Modified by GUIDE v2.5 08-Dec-2016 01:28:05
-=======
 % Last Modified by GUIDE v2.5 16-Dec-2016 09:33:24
->>>>>>> Stashed changes
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,15 +79,11 @@ function Wczytaj_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA
 [filename, pathname]=uigetfile({'*.wav'},'File Selector');
-fullpathname = strcat(pathname,filename);
-<<<<<<< Updated upstream
-text2 = fileread(fullpathname); 
-set(handles.text2,'String',fullpathname);
-=======
+fullpathname = strcat(pathname,filename)
+
 text1 = fileread(fullpathname);
 set(handles.text2,'String',fullpathname)
 
->>>>>>> Stashed changes
 
 % --- Executes on button press in Analiza_widma.
 function Analiza_widma_Callback(hObject, eventdata, handles)
@@ -119,34 +111,34 @@ function Banki_filtrow_Callback(hObject, eventdata, handles)
 % hObject    handle to Banki_filtrow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
+signal = stereoSignal(:,1)';
+cepstralAnalysis(signal,Fs);
 
 % --- Executes on button press in Interwaly_czasowe.
 function Interwaly_czasowe_Callback(hObject, eventdata, handles)
 % hObject    handle to Interwaly_czasowe (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
+signal = stereoSignal(:,1)';
+ plotZeroCrossIntervalsHistogram(signal,Fs,50);
 
 % --- Executes on button press in Obwiednia.
 function Obwiednia_Callback(hObject, eventdata, handles)
 % hObject    handle to Obwiednia (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-<<<<<<< Updated upstream
-[signal,Fs]=audioread(get(handles.text2,'String'));
+[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
+signal = stereoSignal(:,1)';
  plotEnvelope(signal,Fs);
 
 % --- Executes on button press in Gestosc_przejsc_przez_0.
 function Gestosc_przejsc_przez_0_Callback(hObject, eventdata, handles)
-[signal,Fs]=audioread(get(handles.text2,'String'));
- plotZeroCrossDensity(signal,Fs);
-=======
+[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
+signal = stereoSignal(:,1)';
+ plotZeroCrossDensityHistogram(signal,Fs,50);
 
-
-% --- Executes on button press in Gestosc_przejsc_przez_0.
-function Gestosc_przejsc_przez_0_Callback(hObject, eventdata, handles)
->>>>>>> Stashed changes
 % hObject    handle to Gestosc_przejsc_przez_0 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
