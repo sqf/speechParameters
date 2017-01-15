@@ -1,11 +1,8 @@
 function [ ] = plotEnvelope( signal , Fs )
-Fs
-monoSignal = signal(:,1)' ;
-timeBase=[0:1/Fs:(size(monoSignal,2)-1)/Fs] ;
-    y = hilbert(monoSignal);
+
+timeBase=[0:1/Fs:(size(signal,2)-1)/Fs] ;
     
-    env = abs(y);
     figure();
-    plot(timeBase,monoSignal,timeBase, env);
+    plot(timeBase, signal,timeBase, envelope(signal));
 end
 
