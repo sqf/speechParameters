@@ -22,7 +22,7 @@ function varargout = ProjectSpeechParameters(varargin)
 
 % Edit the above text2 to modify the response to help ProjectSpeechParameters
 
-% Last Modified by GUIDE v2.5 18-Jan-2017 22:10:10
+% Last Modified by GUIDE v2.5 19-Jan-2017 00:32:17
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -89,6 +89,10 @@ global Fs
 [stereoSignal,Fs]=audioread(get(handles.text2,'String'));
 signal = stereoSignal(:,1)';
 
+axes(handles.signalAxes);
+plot(signal);
+axes(handles.mainAxes);
+
 % --- Executes on button press in Analiza_widma.
 function Analiza_widma_Callback(hObject, eventdata, handles)
 % hObject    handle to Analiza_widma (see GCBO)
@@ -96,7 +100,7 @@ function Analiza_widma_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
-spectrum(signal,Fs);
+spectrum(getCroppedSignal(handles),Fs);
 
 % --- Executes on button press in Czestotliwosci_formantowe.
 function Czestotliwosci_formantowe_Callback(hObject, eventdata, handles)
@@ -119,7 +123,7 @@ function Banki_filtrow_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
-cepstralAnalysis(signal,Fs);
+cepstralAnalysis(getCroppedSignal(handles),Fs);
 
 % --- Executes on button press in Interwaly_czasowe.
 function Interwaly_czasowe_Callback(hObject, eventdata, handles)
@@ -128,7 +132,7 @@ function Interwaly_czasowe_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
- plotZeroCrossIntervalsHistogram(signal,Fs,50);
+ plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,50);
 
 % --- Executes on button press in Obwiednia.
 function Obwiednia_Callback(hObject, eventdata, handles)
@@ -137,13 +141,13 @@ function Obwiednia_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
- plotEnvelope(signal,Fs);
+ plotEnvelope(getCroppedSignal(handles),Fs);
 
 % --- Executes on button press in Gestosc_przejsc_przez_0.
 function Gestosc_przejsc_przez_0_Callback(hObject, eventdata, handles)
 global signal
 global Fs
- plotZeroCrossDensityHistogram(signal,Fs,50);
+ plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,50);
 
 % hObject    handle to Gestosc_przejsc_przez_0 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -172,11 +176,14 @@ function Stop_nagranie_Callback(hObject, eventdata, handles)
 global recObj 
 stop(recObj);
 myRecording = getaudiodata(recObj);
+axes(handles.signalAxes);
 plot(myRecording);
+axes(handles.mainAxes);
 global signal
 global Fs
 signal = myRecording'
 Fs = recObj.SampleRate
+
 
 % --- Executes on button press in Zapisz_nagranie.
 function Zapisz_nagranie_Callback(hObject, eventdata, handles)
@@ -242,18 +249,18 @@ end
 
 
 % --- Executes on slider movement.
-function slider3_Callback(hObject, eventdata, handles)
-% hObject    handle to slider3 (see GCBO)
+function sliderWindowWidth_Callback(hObject, eventdata, handles)
+% hObject    handle to sliderWindowWidth (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
+updateSignalPlot(handles)
 
 % --- Executes during object creation, after setting all properties.
-function slider3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to slider3 (see GCBO)
+function sliderWindowWidth_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to sliderWindowWidth (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -261,3 +268,46 @@ function slider3_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes on slider movement.
+function sliderWindowStart_Callback(hObject, eventdata, handles)
+% hObject    handle to sliderWindowStart (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+updateSignalPlot(handles)
+
+% --- Executes during object creation, after setting all properties.
+function sliderWindowStart_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to sliderWindowStart (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+function croppedSignal  = getCroppedSignal(handles)
+global signal
+windowWidth = round(get(handles.sliderWindowWidth, 'Value') * (size(signal,2)-1))
+startingSample = round((size(signal,2) -windowWidth )* get(handles.sliderWindowStart, 'Value'))+1
+croppedSignal = signal(startingSample :startingSample +windowWidth-1)
+
+
+function updateSignalPlot(handles)
+global signal
+
+windowWidth = round(get(handles.sliderWindowWidth, 'Value') * (size(signal,2)-1))
+startingSample = round((size(signal,2) - windowWidth )* get(handles.sliderWindowStart, 'Value'))+1
+endSample = startingSample + windowWidth - 1
+
+axes(handles.signalAxes);
+plot(signal);
+vline(startingSample,'r-')
+vline(endSample,'r-')
+axes(handles.mainAxes);
