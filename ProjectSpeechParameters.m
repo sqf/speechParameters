@@ -96,8 +96,7 @@ function Analiza_widma_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
-signal
-spectrumAnalysis(signal,Fs);
+spectrum(signal,Fs);
 
 % --- Executes on button press in Czestotliwosci_formantowe.
 function Czestotliwosci_formantowe_Callback(hObject, eventdata, handles)
@@ -159,7 +158,7 @@ function Start_nagranie_Callback(hObject, eventdata, handles)
 
 global recObj 
 recObj = audiorecorder;
-disp('Zacznij mówiæ')
+disp('Zacznij mï¿½wiï¿½')
 recordblocking(recObj,100); %nagranie trwa 100 sek
 disp('Koniec nagrania')
 signal = myRecording'
