@@ -22,7 +22,7 @@ function varargout = ProjectSpeechParameters(varargin)
 
 % Edit the above text2 to modify the response to help ProjectSpeechParameters
 
-% Last Modified by GUIDE v2.5 16-Dec-2016 09:33:24
+% Last Modified by GUIDE v2.5 18-Jan-2017 22:10:10
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -84,13 +84,20 @@ fullpathname = strcat(pathname,filename)
 text1 = fileread(fullpathname);
 set(handles.text2,'String',fullpathname)
 
+global signal
+global Fs
+[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
+signal = stereoSignal(:,1)';
 
 % --- Executes on button press in Analiza_widma.
 function Analiza_widma_Callback(hObject, eventdata, handles)
 % hObject    handle to Analiza_widma (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+global signal
+global Fs
+signal
+spectrumAnalysis(signal,Fs);
 
 % --- Executes on button press in Czestotliwosci_formantowe.
 function Czestotliwosci_formantowe_Callback(hObject, eventdata, handles)
@@ -111,8 +118,8 @@ function Banki_filtrow_Callback(hObject, eventdata, handles)
 % hObject    handle to Banki_filtrow (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
-signal = stereoSignal(:,1)';
+global signal
+global Fs
 cepstralAnalysis(signal,Fs);
 
 % --- Executes on button press in Interwaly_czasowe.
@@ -120,8 +127,8 @@ function Interwaly_czasowe_Callback(hObject, eventdata, handles)
 % hObject    handle to Interwaly_czasowe (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
-signal = stereoSignal(:,1)';
+global signal
+global Fs
  plotZeroCrossIntervalsHistogram(signal,Fs,50);
 
 % --- Executes on button press in Obwiednia.
@@ -129,14 +136,14 @@ function Obwiednia_Callback(hObject, eventdata, handles)
 % hObject    handle to Obwiednia (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
-signal = stereoSignal(:,1)';
+global signal
+global Fs
  plotEnvelope(signal,Fs);
 
 % --- Executes on button press in Gestosc_przejsc_przez_0.
 function Gestosc_przejsc_przez_0_Callback(hObject, eventdata, handles)
-[stereoSignal,Fs]=audioread(get(handles.text2,'String'));
-signal = stereoSignal(:,1)';
+global signal
+global Fs
  plotZeroCrossDensityHistogram(signal,Fs,50);
 
 % hObject    handle to Gestosc_przejsc_przez_0 (see GCBO)
@@ -149,25 +156,35 @@ function Start_nagranie_Callback(hObject, eventdata, handles)
 % hObject    handle to Start_nagranie (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+global recObj 
 recObj = audiorecorder;
 disp('Zacznij mówiæ')
 recordblocking(recObj,100); %nagranie trwa 100 sek
 disp('Koniec nagrania')
-
+signal = myRecording'
+Fs = recObj.SampleRate
 
 % --- Executes on button press in Stop_nagranie.
 function Stop_nagranie_Callback(hObject, eventdata, handles)
 % hObject    handle to Stop_nagranie (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global recObj 
 stop(recObj);
-
+myRecording = getaudiodata(recObj);
+plot(myRecording);
+global signal
+global Fs
+signal = myRecording'
+Fs = recObj.SampleRate
 
 % --- Executes on button press in Zapisz_nagranie.
 function Zapisz_nagranie_Callback(hObject, eventdata, handles)
 % hObject    handle to Zapisz_nagranie (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global recObj 
 myRecording = getaudiodata(recObj);
 
 
@@ -176,6 +193,7 @@ function Odtworz_nagranie_Callback(hObject, eventdata, handles)
 % hObject    handle to Odtworz_nagranie (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global recObj 
 play(recObj);
 
 
@@ -221,4 +239,26 @@ function wybierz_koniec_nagrania_CreateFcn(hObject, eventdata, handles)
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on slider movement.
+function slider3_Callback(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
