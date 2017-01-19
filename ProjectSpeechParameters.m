@@ -105,7 +105,9 @@ function Czestotliwosci_formantowe_Callback(hObject, eventdata, handles)
 % hObject    handle to Czestotliwosci_formantowe (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+global signal
+global Fs
+formant(getCroppedSignal(handles),Fs);
 
 % --- Executes on button press in Czestotliwosci_antyformantowe.
 function Czestotliwosci_antyformantowe_Callback(hObject, eventdata, handles)
