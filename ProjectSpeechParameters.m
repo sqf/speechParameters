@@ -89,9 +89,7 @@ global Fs
 [stereoSignal,Fs]=audioread(get(handles.text2,'String'));
 signal = stereoSignal(:,1)';
 
-axes(handles.signalAxes);
-plot(signal);
-axes(handles.mainAxes);
+updateSignalPlot(handles);
 
 % --- Executes on button press in Analiza_widma.
 function Analiza_widma_Callback(hObject, eventdata, handles)
@@ -176,14 +174,12 @@ function Stop_nagranie_Callback(hObject, eventdata, handles)
 global recObj 
 stop(recObj);
 myRecording = getaudiodata(recObj);
-axes(handles.signalAxes);
-plot(myRecording);
-axes(handles.mainAxes);
 global signal
 global Fs
 signal = myRecording'
 Fs = recObj.SampleRate
 
+updateSignalPlot(handles);
 
 % --- Executes on button press in Zapisz_nagranie.
 function Zapisz_nagranie_Callback(hObject, eventdata, handles)
