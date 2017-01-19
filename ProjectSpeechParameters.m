@@ -188,9 +188,11 @@ function Zapisz_nagranie_Callback(hObject, eventdata, handles)
 % hObject    handle to Zapisz_nagranie (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global recObj 
-myRecording = getaudiodata(recObj);
-
+global Fs
+csvwrite('zeroCrossIntervals', plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,50));
+csvwrite('zeroCrossDensity', plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,50));
+csvwrite('formant', formant(getCroppedSignal(handles),Fs));
+csvwrite('bankFilters', cepstralAnalysis(getCroppedSignal(handles),Fs));
 
 % --- Executes on button press in Odtworz_nagranie.
 function Odtworz_nagranie_Callback(hObject, eventdata, handles)

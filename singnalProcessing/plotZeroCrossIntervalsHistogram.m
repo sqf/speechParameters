@@ -1,5 +1,5 @@
 %return intervals in seconds
-function [zeroCrossDensity] = plotZeroCrossIntervalsHistogram( signal, Fs, windowWidth)
+function [zeroCrossInterval] = plotZeroCrossIntervalsHistogram( signal, Fs, windowWidth)
    timeBase=[0:1/Fs:(size(signal,2)-1)/Fs] ;    
 
    for i = 1:size(signal,2)-1

@@ -1,4 +1,4 @@
-function [] = formant(signal, fs)
+function [ffreq] = formant(signal, fs)
 % resample to 10,000Hz (optional)
 signal=resample(signal,10000,fs);
 fs=10000;
