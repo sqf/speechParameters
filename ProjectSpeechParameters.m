@@ -200,7 +200,9 @@ function Odtworz_nagranie_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global recObj 
-play(recObj);
+global record
+record= getaudiodata(recObj);
+sound(record);
 
 
 function Wybierz_poczatek_nagrania_Callback(hObject, eventdata, handles)
