@@ -6,5 +6,8 @@ function [] = spectrum(signal, Fs)
     surf(T,F,10 * log10(P),'edgecolor','none'); axis tight; view(0,90);
     colormap(hot); set(gca,'clim',[-80 -30]); xlabel('Temps (Seconds)');
     ylabel('Frequnences Hz'); 
+    colormap bone
+    view(-45,65) % dodajcie prosze mozliwosc poruszania widokiem
+    % tj zmieniania katu w locie. nie pamietam jak to sie robilo.
 end
 
