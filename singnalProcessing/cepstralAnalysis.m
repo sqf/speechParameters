@@ -7,12 +7,18 @@ function [discreteCosineTransform ] = cepstralAnalysis(signal, fs)
     figure(1);
     clf
     frequencies = [0:fs/size(fourier,2):fs]
+    
     fourierHalfSize = round(size(fourier,2)/2)
     
     fourierHalf = fourier(1:fourierHalfSize)
     
     subplot(4,1,1);
-    plotSampleCount = round(size(fourierHalf,2))/3;
+ 
+    plotSampleCount = round(size(fourierHalf,2));
+    if(fs>16000)
+        plotSampleCount = plotSampleCount *8000/fs;
+    end
+    
     plot(frequencies(1:plotSampleCount),fourierHalf(1:plotSampleCount));
      title('spectrum');
      xlabel('[Hz]');
