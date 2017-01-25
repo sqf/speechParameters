@@ -7,7 +7,6 @@ function [] = spectrum(signal, Fs)
     colormap(hot); set(gca,'clim',[-80 -30]); xlabel('Temps (Seconds)');
     ylabel('Frequnences Hz'); 
     colormap bone
-    view(-45,65) % dodajcie prosze mozliwosc poruszania widokiem
-    % tj zmieniania katu w locie. nie pamietam jak to sie robilo.
+    view(-45,65)
 end
 
