@@ -12,11 +12,12 @@ function [zeroCrossInterval] = plotZeroCrossIntervalsHistogram( signal, Fs, wind
    
    zeroCrossFunction(size(signal,2))=0;
    for i = 1 : size(signal,2)/windowWidth
-       zeroCrossInterval(i) = sum(zeroCrossFunction(i : (i + windowWidth))) / windowWidth /Fs;
+       zeroCrossInterval(i) = 1/(sum(zeroCrossFunction(i : (i + windowWidth))) / windowWidth * Fs/2);
    end
    
 %plot(zeroCrossInterval);
 
 histogram(zeroCrossInterval);
+xlabel('time interval [s]');
 end
 

@@ -11,10 +11,11 @@ function [zeroCrossDensity] = plotzeroCrossDensity( signal, Fs, windowWidth)
    
    zeroCrossFunction(size(signal,2))=0;
    for i = 1 : size(signal,2)/windowWidth
-       zeroCrossDensity(i) = sum(zeroCrossFunction(i : (i + windowWidth)));
+       zeroCrossDensity(i) = (sum(zeroCrossFunction(i : (i + windowWidth))) / windowWidth * Fs);
    end
    
 %plot(zeroCrossDensity);
 histogram(zeroCrossDensity);
+xlabel('zero cross per second');
 end
 
