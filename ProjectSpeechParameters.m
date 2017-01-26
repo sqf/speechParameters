@@ -132,7 +132,7 @@ function Interwaly_czasowe_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 global signal
 global Fs
- plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,50);
+ plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,1000);
 
 % --- Executes on button press in Obwiednia.
 function Obwiednia_Callback(hObject, eventdata, handles)
@@ -147,7 +147,7 @@ global Fs
 function Gestosc_przejsc_przez_0_Callback(hObject, eventdata, handles)
 global signal
 global Fs
- plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,50);
+ plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,1000);
 
 % hObject    handle to Gestosc_przejsc_przez_0 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -189,8 +189,8 @@ function Zapisz_nagranie_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global Fs
-csvwrite('zeroCrossIntervals', plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,50));
-csvwrite('zeroCrossDensity', plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,50));
+csvwrite('zeroCrossIntervals', plotZeroCrossIntervalsHistogram(getCroppedSignal(handles),Fs,1000));
+csvwrite('zeroCrossDensity', plotZeroCrossDensityHistogram(getCroppedSignal(handles),Fs,1000));
 csvwrite('formant', formant(getCroppedSignal(handles),Fs));
 csvwrite('bankFilters', cepstralAnalysis(getCroppedSignal(handles),Fs));
 
