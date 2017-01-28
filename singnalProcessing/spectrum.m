@@ -6,6 +6,7 @@ function [] = spectrum(signal, Fs)
     surf(T,F,10 * log10(P),'edgecolor','none'); axis tight; view(0,90);
     colormap(hot); set(gca,'clim',[-80 -30]); xlabel('Temps (Seconds)');
     ylabel('Frequnences Hz'); 
+    ylim([0 10000])
     colormap bone
     view(-45,65)
 end

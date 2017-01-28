@@ -24,8 +24,8 @@ figure
 subplot(2,1,2);
 plot(f,20*log10(abs(h)+eps));
 % legend('LP Filter');
- xlabel('Częstotliwość (Hz)');
- ylabel('Przyrost (dB)');
+ xlabel('Frequency (Hz)');
+ ylabel('Gain (dB)');
 
 % find frequencies by root-solving
 
